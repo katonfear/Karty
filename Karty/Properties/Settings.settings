@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Karty.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Class" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">GenerateNumber.Generate</Value>
+    </Setting>
+    <Setting Name="Method" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">GenerateGuid</Value>
+    </Setting>
+    <Setting Name="Path" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\darkk\source\repos\Karty\GenerateNumber\bin\Debug\net9.0\GenerateNumber.dll</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
