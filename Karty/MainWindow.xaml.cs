@@ -44,6 +44,42 @@ namespace Karty
             {
                 BazaDanych db = new BazaDanych();
                 db.Show();
+                db.Closed += (a, b) => { 
+                    try
+                    {
+                        payCards.Clear();
+                        using (var conn = Karty.Model.DbConnection.GetConnection())
+                        {
+                            using (var cmd = conn.CreateCommand())
+                            {
+                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.CommandText = "GET_CARDS";
+                                cmd.Parameters.AddWithValue("@Account", "");
+                                cmd.Parameters.AddWithValue("@SerialNumber", "");
+                                cmd.Parameters.AddWithValue("@CardId", "");
+                                using (var reader = cmd.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        payCards.Add(new PayCard()
+                                        {
+                                            AccountNumber = reader.GetString(reader.GetOrdinal("AccountNumber"))
+                                            ,
+                                            Id = reader.GetString(reader.GetOrdinal("CardId"))
+                                            ,
+                                            SerialNumber = reader.GetString(reader.GetOrdinal("SerialNumber"))
+                                            ,
+                                            PinEncrypt = reader["Pin"] as byte[]
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException)
+                    {
+                    }
+                };
             }
             catch (Exception ex)
             {

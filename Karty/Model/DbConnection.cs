@@ -29,7 +29,7 @@ namespace Karty.Model
                 }
                 else
                 {
-                    if (string.IsNullOrWhiteSpace(SqlCon.ConnectionString))
+                    if (string.IsNullOrWhiteSpace(SqlCon.ConnectionString.ToString()) || string.IsNullOrWhiteSpace(SqlCon.DataSource) || string.IsNullOrWhiteSpace(SqlCon.Database))
                     {
                         SqlCon.ConnectionString = new SqlConnectionStringBuilder() { DataSource = Configuration.Server, UserID = Configuration.User, Password = Configuration.Password, InitialCatalog = Configuration.DataBase, TrustServerCertificate = true }.ConnectionString;
                     }
