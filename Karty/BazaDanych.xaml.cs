@@ -24,13 +24,20 @@ namespace Karty
         public BazaDanych()
         {
             InitializeComponent();
+            if (DbConnection.Configuration != null && !string.IsNullOrWhiteSpace(DbConnection.Configuration.Password))
+            {
+                password.Password = DbConnection.Configuration.Password;
+            }
         }
 
         private void user_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(user.Text))
             {
-                HideShow(user, true);
+                if (!user.IsFocused)
+                {
+                    HideShow(user, true);
+                }
             }
             else 
             {
@@ -41,9 +48,12 @@ namespace Karty
 
         private void password_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(user.Text))
+            if (string.IsNullOrEmpty(password.Password))
             {
-                HideShow(password, true);
+                if (!password.IsFocused)
+                {
+                    HideShow(password, true);
+                }
             }
             else
             {
@@ -53,9 +63,12 @@ namespace Karty
 
         private void server_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrEmpty(user.Text))
+            if (string.IsNullOrEmpty(server.Text))
             {
-                HideShow(server, true);
+                if (!server.IsFocused)
+                {
+                    HideShow(server, true);
+                }
             }
             else
             {

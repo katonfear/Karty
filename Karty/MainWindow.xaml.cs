@@ -255,7 +255,7 @@ namespace Karty
                     }
                     else 
                     {
-                        MessageBox.Show(this, "Karta o podanym identyfikatorze już istnieje.");
+                        MessageBox.Show(this, "Karta o podanym identyfikatorze lub numerze seryjnym już istnieje.");
                     }
 
                     payCards.Add(card);
@@ -472,6 +472,18 @@ namespace Karty
                 {
                     MessageBox.Show(this, "Proszę podać adres nasłuchu serwera.");
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message);
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try 
+            {
+                ShowConfiguration();
             }
             catch (Exception ex)
             {

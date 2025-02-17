@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace Karty.Model
 {
     public static class DbConnection
     {
-        public static DbConfiguration? Configuration { get; set; } = new DbConfiguration();
+        public static DbConfiguration? Configuration { get; set; } = 
+            new DbConfiguration();
         public static SqlConnection? SqlCon { get; set; } = null;
 
         public static string FileName { get; set; } = "json.config";
@@ -77,15 +79,28 @@ namespace Karty.Model
 
     }
 
-    public class DbConfiguration
+    public class DbConfiguration : INotifyPropertyChanged
     {
         [JsonProperty("user", Required = Required.Always)]
-        public string User { get; set; } = string.Empty;
+        public string User { get { 
+                return _user; } set { _user = value; OnPropertyChanged("User"); } }
+        [JsonIgnore]
+        private string _user = string.Empty;
         [JsonProperty("password", Required = Required.Always)]
-        public string Password { get; set; } = string.Empty;
+        public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
+        private string _password = string.Empty;
         [JsonProperty("server", Required = Required.Always)]
-        public string Server { get; set; } = string.Empty;
+        public string Server { get { return _server; } set { _server = value; OnPropertyChanged("Server"); } }
+        private string _server = string.Empty;
         [JsonProperty("database", Required = Required.Always)]
-        public string DataBase { get; set; } = "Apator";
+        public string DataBase { get { return _database; } set { _database = value; OnPropertyChanged("DataBase"); } }
+        private string _database = "Apator";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName) 
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

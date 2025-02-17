@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Karty"
+        xmlns:local2="clr-namespace:Karty.Model"
         mc:Ignorable="d"
         Title="BazaDanych" Height="450" Width="800">
     <Grid>
@@ -16,11 +17,11 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="userBlock" Text="Użytkownik" Foreground="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="22,5"/>
-            <TextBox x:Name="user" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,5" Background="Transparent" TextChanged="user_TextChanged" GotFocus="GotFocus" LostFocus="LostFocus"/>
+            <TextBox x:Name="user" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,5" Background="Transparent" TextChanged="user_TextChanged" GotFocus="GotFocus" LostFocus="LostFocus" Text="{Binding Source={x:Static local2:DbConnection.Configuration}, Path=User, Mode=TwoWay}"/>
             <TextBlock x:Name="passwordBlock" Grid.Row="1" Text="Hasło" Foreground="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="22,5"/>
-            <PasswordBox x:Name="password" HorizontalAlignment="Stretch" Grid.Row="1"  VerticalAlignment="Stretch" Margin="20,5" Background="Transparent" PasswordChanged="password_PasswordChanged"/>
+            <PasswordBox x:Name="password" HorizontalAlignment="Stretch" Grid.Row="1"  VerticalAlignment="Stretch" Margin="20,5" Background="Transparent" PasswordChanged="password_PasswordChanged" GotFocus="GotFocus" LostFocus="LostFocus"/>
             <TextBlock Grid.Row="2" x:Name="serverBlock" Text="Serwer" Foreground="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="22,5"/>
-            <TextBox Grid.Row="2" x:Name="server" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,5" Background="Transparent" TextChanged="server_TextChanged"/>
+            <TextBox Grid.Row="2" x:Name="server" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,5" Background="Transparent" TextChanged="server_TextChanged" Text="{Binding Source={x:Static local2:DbConnection.Configuration}, Path=Server, Mode=TwoWay}" GotFocus="GotFocus" LostFocus="LostFocus"/>
             <Button x:Name="zapisz" Content="Zapisz"  Margin="5,0,0,0" Grid.Row="4" Width="75" Height="20" HorizontalAlignment="Left" Click="zapisz_Click"/>
             <Button x:Name="test" Content="Test" HorizontalAlignment="Left" Margin="85,0,0,0" Grid.Row="4" Width="75" Height="20" Click="test_Click"/>
             <Button x:Name="anuluj" Content="Anuluj" HorizontalAlignment="Left" Margin="165,0,0,0" Grid.Row="4" Width="75" Height="20" Click="anuluj_Click"/>
