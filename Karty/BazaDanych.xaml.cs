@@ -21,11 +21,13 @@ namespace Karty
     /// </summary>
     public partial class BazaDanych : Window
     {
+        public bool WasSaved { get; set; } = false;
         public BazaDanych()
         {
             InitializeComponent();
             if (DbConnection.Configuration != null && !string.IsNullOrWhiteSpace(DbConnection.Configuration.Password))
             {
+                DbConnection.Configuration.CopyCurrentVersion();
                 password.Password = DbConnection.Configuration.Password;
             }
         }
@@ -109,6 +111,9 @@ namespace Karty
                 if (data != null)
                 {
                     System.IO.File.WriteAllBytes(DbConnection.FileName, data);
+                    MessageBox.Show(this,"Plik został zapisany.");
+                    WasSaved = true;
+                    this.Close();
                 }
                 else 
                 {

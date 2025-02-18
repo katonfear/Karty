@@ -95,12 +95,42 @@ namespace Karty.Model
         [JsonProperty("database", Required = Required.Always)]
         public string DataBase { get { return _database; } set { _database = value; OnPropertyChanged("DataBase"); } }
         private string _database = "Apator";
+        [JsonIgnore]
+        private DbConfiguration? LastVersion { get; set; } = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName) 
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void CopyCurrentVersion() 
+        {
+            LastVersion = new DbConfiguration() 
+            { 
+                User = _user,
+                Password = _password,   
+                Server = _server,
+                DataBase = _database,
+            };
+        }
+
+        public void Previous() 
+        {
+            if (LastVersion != null) 
+            {
+                this.User = LastVersion.User;
+                this.Password = LastVersion.Password;
+                this.Server = LastVersion.Server;
+                this.DataBase = LastVersion.DataBase;
+                LastVersion = null;
+            }
+        }
+
+        public void ClearLastVersion() 
+        {
+            LastVersion = null;
         }
     }
 }

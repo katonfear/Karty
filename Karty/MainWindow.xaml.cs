@@ -47,30 +47,47 @@ namespace Karty
                 db.Closed += (a, b) => { 
                     try
                     {
-                        payCards.Clear();
-                        using (var conn = Karty.Model.DbConnection.GetConnection())
+                        if (db.WasSaved)
                         {
-                            using (var cmd = conn.CreateCommand())
+                            if (Model.DbConnection.Configuration != null)
                             {
-                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                                cmd.CommandText = "GET_CARDS";
-                                cmd.Parameters.AddWithValue("@Account", "");
-                                cmd.Parameters.AddWithValue("@SerialNumber", "");
-                                cmd.Parameters.AddWithValue("@CardId", "");
-                                using (var reader = cmd.ExecuteReader())
+                                Model.DbConnection.Configuration.ClearLastVersion();
+                            }
+                        }
+                        else 
+                        {
+                            if (Model.DbConnection.Configuration != null)
+                            {
+                                Model.DbConnection.Configuration.Previous();
+                            }
+                        }
+                        payCards.Clear();
+                        if (db.WasSaved)
+                        {
+                            using (var conn = Karty.Model.DbConnection.GetConnection())
+                            {
+                                using (var cmd = conn.CreateCommand())
                                 {
-                                    while (reader.Read())
+                                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                    cmd.CommandText = "GET_CARDS";
+                                    cmd.Parameters.AddWithValue("@Account", "");
+                                    cmd.Parameters.AddWithValue("@SerialNumber", "");
+                                    cmd.Parameters.AddWithValue("@CardId", "");
+                                    using (var reader = cmd.ExecuteReader())
                                     {
-                                        payCards.Add(new PayCard()
+                                        while (reader.Read())
                                         {
-                                            AccountNumber = reader.GetString(reader.GetOrdinal("AccountNumber"))
-                                            ,
-                                            Id = reader.GetString(reader.GetOrdinal("CardId"))
-                                            ,
-                                            SerialNumber = reader.GetString(reader.GetOrdinal("SerialNumber"))
-                                            ,
-                                            PinEncrypt = reader["Pin"] as byte[]
-                                        });
+                                            payCards.Add(new PayCard()
+                                            {
+                                                AccountNumber = reader.GetString(reader.GetOrdinal("AccountNumber"))
+                                                ,
+                                                Id = reader.GetString(reader.GetOrdinal("CardId"))
+                                                ,
+                                                SerialNumber = reader.GetString(reader.GetOrdinal("SerialNumber"))
+                                                ,
+                                                PinEncrypt = reader["Pin"] as byte[]
+                                            });
+                                        }
                                     }
                                 }
                             }
